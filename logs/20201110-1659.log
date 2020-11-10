@@ -1,0 +1,12 @@
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 读取到配置文件
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 获取到登录url为http://island.dev.iot-cas.com:8081/system/login
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 获取到登录账户为admin1
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 获取到登录密码为a123456
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 获取到接口文档地址为../apifile/
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 获取到测试用例地址为../testcase/
+2020-11-10 16:59:27 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 开始登陆
+
+2020-11-10 16:59:29 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 登录完成获取信息
+2020-11-10 16:59:29 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 开始读取api文档
+2020-11-10 16:59:29 - INFO - "D:\APITest\common\log.py:12" - log - INFO - 准备发送请求
+
