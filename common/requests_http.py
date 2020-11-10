@@ -24,27 +24,31 @@ class Request(unittest.TestCase):
             for list in ReadCase().get_rows_data(api_file,case_sheet):
                 url = list[0]
                 mothod = list[1]
-                data = list[2]
+                data = str(list[2])
                 code = list[3]
                 status= list[4]
-                params = list[5]
+                params = str(list[5])
                 apiname = list[6]
                 log('此次请求信息列表{list}'.format(list=list))
                 #判断mothod是什么类型，从而采用什么请求方式
                 log('开始判断请求方式')
                 if mothod == 'get':
+                    params = params.encode('utf-8')
                     res = requests.get(url, headers= headers,params=params)
                     log('判断为get,并完成请求')
                 elif mothod == 'post':
-                    if data != None:
+                    if data != None or params != None:
                         data = data.encode('utf-8')
+                        params = params.encode('utf-8')
                         res = requests.post(url,data=data,headers = headers,params = params)
                         log('判断为post,并完成请求')
                 elif  mothod == 'put':
+                    data = data.encode('utf-8')
                     res = requests.put(url,data=data,headers = headers)
                     log('判断为put,并完成请求')
                 elif mothod == 'delete':
-                    res = requests.delete(url,data=data,headers = headers)
+                    data = data.encode('utf-8')
+                    res = requests.delete(url,data=data,headers = headers,params = params)
                     log('判断为delete,并完成请求')
                 rescode = res.status_code
                 restext = res.text
@@ -53,11 +57,11 @@ class Request(unittest.TestCase):
                 if 200 == rescode:
                     log('请求响应预期200，实际为{rescode}'.format(rescode=rescode))
                     resjson = json.loads(res.content)
+                    print(resjson)
                     resjson_code = resjson['code']
                     resjson_status = resjson['status']
                     resjson_msg = resjson['msg']
                     log('返回结果为{restext}'.format(restext=restext))
-
                     print(url,apiname,'请求完成,返回code和status和msg提示分别是',resjson_code,resjson_status,resjson_msg)
                     self.assertEqual(resjson_code, code) and self.assertEqual(status, resjson_status)
                     log('判断预期和实际返回信息完成')
@@ -66,5 +70,6 @@ class Request(unittest.TestCase):
                     raise Exception('接口通信失败，请检查网络')
 
 if __name__ == '__main__':
-    #Request().send_request(apifile_dir + 'dashboard.xlsx', 'Sheet')
-    unittest.mian()
+
+    Request().send_request(apifile_dir + 'dashboard.xlsx', 'Sheet')
+   # unittest.mian()

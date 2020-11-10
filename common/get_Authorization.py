@@ -16,6 +16,7 @@ class GetLogin:
                 'password': password}
         res = requests.post(url, headers=header, data=data).content
         log('登录完成获取信息')
+#        print(res)
         resjson = json.loads(res)
         # 尝试获取登录返回信息，登录错误提示
         try:

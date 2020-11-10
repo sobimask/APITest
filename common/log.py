@@ -13,3 +13,4 @@ def log(text):
 
 if __name__ == '__main__':
     log('日志开始')
+
