@@ -57,7 +57,7 @@ class Request(unittest.TestCase):
                 if 200 == rescode:
                     log('请求响应预期200，实际为{rescode}'.format(rescode=rescode))
                     resjson = json.loads(res.content)
-                    print(resjson)
+                    #print(resjson)
                     resjson_code = resjson['code']
                     resjson_status = resjson['status']
                     resjson_msg = resjson['msg']

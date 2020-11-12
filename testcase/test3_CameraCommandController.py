@@ -9,7 +9,8 @@ class Camera(unittest.TestCase):
 
     '''摄像头应用操作相关接口'''
 
-    def setUp(self) -> None:
+    @classmethod
+    def setUpClass(cls):
         if devicesisonline(devicesid[0]) == '在线':         #devicesid[0]为摄像头设备的id
             log("判断设备在线，继续执行")
         else:

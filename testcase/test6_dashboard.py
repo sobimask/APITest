@@ -9,7 +9,9 @@ class MyTestCase(unittest.TestCase):
     '''
     首页各报表统计
     '''
-    def setUp(self) -> None:
+
+    @classmethod
+    def setUpClass(cls):
         data = {"configurableAttrs": [{"uKey": "serverIp", "value": "11"}, {"uKey": "terid", "value": "11"}],
                 "uid": randomdata, "name": randomdata, "deviceModelId": "738682240710184960",
                 "appLabelList": {"deviceArea": "003", "manager": "041", "installationDate": "2020-09-07",

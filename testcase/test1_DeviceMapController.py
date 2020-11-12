@@ -8,7 +8,8 @@ from common.write_excel_data import write_data
 class DeviceMapController(unittest.TestCase):
     '''设备地图相关接口'''
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         data = {
             "deviceCriteria": {
                 "deviceTypeIds": ["camera"],

@@ -33,4 +33,5 @@ class GetLogin:
             #print(cookie)
             return cookie
             log('返回登录秘钥为{cookie}'.format(cookie=cookie))
-Authorization = GetLogin().login()  # 赋值变量供传递 元组类型
+Authorization = GetLogin().login()
+#print(Authorization)

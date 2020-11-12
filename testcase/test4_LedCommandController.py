@@ -9,7 +9,8 @@ class Led(unittest.TestCase):
 
     '''LED屏幕应用操作相关接口'''
 
-    def setUp(self) -> None:
+    @classmethod
+    def setUpClass(cls):
         if devicesisonline(devicesid[1]) == '在线':         #devicesid[1]为LED设备的id
             log("判断设备在线，继续执行")
         else:

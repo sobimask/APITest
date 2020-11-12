@@ -8,7 +8,9 @@ from common.readconf import devicesid
 
 class Radio(unittest.TestCase):
     '''广播应用操作相关接口'''
-    def setUp(self) -> None:
+
+    @classmethod
+    def setUpClass(cls):
         if devicesisonline(devicesid[2]) == '在线':         #devicesid[2]为广播设备的id
             log("判断设备在线，继续执行")
         else:
