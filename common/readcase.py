@@ -5,8 +5,10 @@ from common.log import log
 from common.readconf import apifile_dir
 
 log('开始读取api文档')
+
+
 class ReadCase():
-    def get_rows_data(self,case_file,case_sheet):
+    def get_rows_data(self, case_file, case_sheet):
         log('创建空datalist')
         datalist = []
         try:
@@ -25,12 +27,12 @@ class ReadCase():
                     continue;
                 list = []
                 for col in item:
-                    if item[0].value ==None:
+                    if item[0].value == None:
                         continue;
                     list.append(col.value)
                 # 用例读取到的列表值
-                #优化读取case，不会读取到空白行添加到列表
-                if list !=[]:
+                # 优化读取case，不会读取到空白行添加到列表
+                if list != []:
                     datalist.append(list)
             log('读取到列表{datalist}'.format(datalist=datalist))
             return datalist

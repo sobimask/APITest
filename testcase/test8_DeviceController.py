@@ -35,13 +35,12 @@ class DeviceController(unittest.TestCase):
         adddevice = str(adddevice).encode('utf-8')
         res = requests.post(url='http://island.dev.iot-cas.com:8081/island/device', data=adddevice, headers=headers)
         resjson = json.loads(res.content)
-        #print(resjson)
+        print(resjson)
         id = resjson['data']['data']
-        #print(id)
         log('新增设备成功，设备id为{id}'.format(id=id))
 
         updatedevice = {"configurableAttrs": [{"uKey": "serverIp", "value": "11"}, {"uKey": "terid", "value": 11}],
-                        "uid": randomdata+'up', "name": randomdata+'up', "deviceModelId": "738682240710184960",
+                        "uid": randomdata + 'up', "name": randomdata + 'up', "deviceModelId": "738682240710184960",
                         "id": id,
                         "appLabelList": {"deviceArea": "009", "manager": "041", "installationDate": "2020-11-11",
                                          "qualityAssuranceDate": "2022-11-30", "installer": "", "supplier": "",
@@ -55,15 +54,16 @@ class DeviceController(unittest.TestCase):
                                       {"key": "qualityAssuranceDate", "value": "2022-11-30"},
                                       {"key": "address", "value": "广东省广州市南沙区黄阁镇银华街"}]}
         write_data(apifile_dir + 'DeviceController.xlsx', 'Sheet1', 2, 3, str(updatedevice))
-        #写入查询接口id
-        getidurl ='http://island.dev.iot-cas.com:8081/island/devices/getByIds?ids='+str(id)
+        # 写入查询接口id
+        getidurl = 'http://island.dev.iot-cas.com:8081/island/devices/getByIds?ids=' + str(id)
         write_data(apifile_dir + 'DeviceController.xlsx', 'Sheet1', 7, 1, str(getidurl))
-        #写入删除接口id
-        deletedeviceurl = 'http://island.dev.iot-cas.com:8081/island/devices?ids='+str(id)
+        # 写入删除接口id
+        deletedeviceurl = 'http://island.dev.iot-cas.com:8081/island/devices?ids=' + str(id)
         write_data(apifile_dir + 'DeviceController.xlsx', 'Sheet1', 9, 1, str(deletedeviceurl))
+
     def test_DeviceController(self):
         log('开始跑测试用例')
-        Request().send_request(apifile_dir + 'DeviceController.xlsx', 'Sheet1')  ##只需要改动 xxx.xlsx文件即可
+        # Request().send_request(apifile_dir + 'DeviceController.xlsx', 'Sheet1')  ##只需要改动 xxx.xlsx文件即可
 
 
 if __name__ == '__main__':

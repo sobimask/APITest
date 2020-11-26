@@ -61,4 +61,3 @@ import logging
 # }
 # 
 # FORMATTER_KIND = 5  # 默认选择第几个模板
-

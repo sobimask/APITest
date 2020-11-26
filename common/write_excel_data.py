@@ -1,5 +1,7 @@
 from openpyxl import load_workbook
-def write_data(filename,sheetname,row, column, data):
+
+
+def write_data(filename, sheetname, row, column, data):
     """
     :param row: 指定在某一行写
     :param column: 指定在某一列写

@@ -71,7 +71,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 __author__ = "Wai Yip Tung,  Findyou，Adil"
 __version__ = "0.8.2.3"
 
-
 """
 Change History
 Version 0.8.2.1 -Findyou
@@ -111,6 +110,7 @@ import unittest
 from xml.sax import saxutils
 import sys
 
+
 # ------------------------------------------------------------------------
 # The redirectors below are used to capture output during testing. Output
 # sent to sys.stdout and sys.stderr are automatically captured. However
@@ -124,6 +124,7 @@ import sys
 
 class OutputRedirector(object):
     """ Wrapper to redirect stdout or stderr """
+
     def __init__(self, fp):
         self.fp = fp
 
@@ -136,8 +137,10 @@ class OutputRedirector(object):
     def flush(self):
         self.fp.flush()
 
+
 stdout_redirector = OutputRedirector(sys.stdout)
 stderr_redirector = OutputRedirector(sys.stderr)
+
 
 # ----------------------------------------------------------------------
 # Template
@@ -183,9 +186,9 @@ class Template_mixin(object):
     """
 
     STATUS = {
-    0: '通过',
-    1: '失败',
-    2: '错误',
+        0: '通过',
+        1: '失败',
+        2: '错误',
     }
     # 默认测试标题
     DEFAULT_TITLE = '测试报告'
@@ -305,7 +308,6 @@ function html_escape(s) {
 """
     # variables: (title, generator, stylesheet, heading, report, ending)
 
-
     # ------------------------------------------------------------------------
     # Stylesheet
     #
@@ -348,12 +350,10 @@ table       { font-size: 100%; }
 <p class='description'>%(description)s</p>
 </div>
 
-""" # variables: (title, parameters, description)
+"""  # variables: (title, parameters, description)
 
     HEADING_ATTRIBUTE_TMPL = """<p class='attribute'><strong>%(name)s : </strong> %(value)s</p>
-""" # variables: (name, value)
-
-
+"""  # variables: (name, value)
 
     # ------------------------------------------------------------------------
     # Report
@@ -397,7 +397,7 @@ table       { font-size: 100%; }
     <td>通过率：%(passrate)s</td>
 </tr>
 </table>
-""" # variables: (test_list, count, Pass, fail, error ,passrate)
+"""  # variables: (test_list, count, Pass, fail, error ,passrate)
 
     REPORT_CLASS_TMPL = r"""
 <tr class='%(style)s warning'>
@@ -408,9 +408,9 @@ table       { font-size: 100%; }
     <td class="text-center">%(fail)s</td>
     <td class="text-center"><a href="javascript:showClassDetail('%(cid)s',%(count)s)" class="detail" id='%(cid)s'>详细</a></td>
 </tr>
-""" # variables: (style, desc, count, Pass, fail, error, cid)
+"""  # variables: (style, desc, count, Pass, fail, error, cid)
 
-    #失败 的样式，去掉原来JS效果，美化展示效果  -Findyou
+    # 失败 的样式，去掉原来JS效果，美化展示效果  -Findyou
     REPORT_TEST_WITH_OUTPUT_TMPL = r"""
 <tr id='%(tid)s' class='%(Class)s'>
     <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
@@ -428,7 +428,7 @@ table       { font-size: 100%; }
     </div>
     </td>
 </tr>
-""" # variables: (tid, Class, style, desc, status)
+"""  # variables: (tid, Class, style, desc, status)
 
     # 通过 的样式，加标签效果  -Findyou
     REPORT_TEST_NO_OUTPUT_TMPL = r"""
@@ -436,11 +436,11 @@ table       { font-size: 100%; }
     <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
     <td colspan='5' align='center'><span class="label label-success success">%(status)s</span></td>
 </tr>
-""" # variables: (tid, Class, style, desc, status)
+"""  # variables: (tid, Class, style, desc, status)
 
     REPORT_TEST_OUTPUT_TMPL = r"""
 %(id)s: %(output)s
-""" # variables: (id, output)
+"""  # variables: (id, output)
 
     # ------------------------------------------------------------------------
     # ENDING
@@ -452,10 +452,12 @@ table       { font-size: 100%; }
     </span></a></div>
     """
 
+
 # -------------------- The end of the Template class -------------------
 
 
 TestResult = unittest.TestResult
+
 
 class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.
@@ -478,9 +480,8 @@ class _TestResult(TestResult):
         #   stack trace,
         # )
         self.result = []
-        #增加一个测试通过率 --Findyou
-        self.passrate=float(0)
-
+        # 增加一个测试通过率 --Findyou
+        self.passrate = float(0)
 
     def startTest(self, test):
         TestResult.startTest(self, test)
@@ -492,7 +493,6 @@ class _TestResult(TestResult):
         self.stderr0 = sys.stderr
         sys.stdout = stdout_redirector
         sys.stderr = stderr_redirector
-
 
     def complete_output(self):
         """
@@ -506,13 +506,11 @@ class _TestResult(TestResult):
             self.stderr0 = None
         return self.outputBuffer.getvalue()
 
-
     def stopTest(self, test):
         # Usually one of addSuccess, addError or addFailure would have been called.
         # But there are some path in unittest that would bypass this.
         # We must disconnect stdout in stopTest(), which is guaranteed to be called.
         self.complete_output()
-
 
     def addSuccess(self, test):
         self.success_count += 1
@@ -556,7 +554,8 @@ class _TestResult(TestResult):
 class HTMLTestRunner(Template_mixin):
     """
     """
-    def __init__(self, stream=sys.stdout, verbosity=1,title=None,description=None,tester=None):
+
+    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None, tester=None):
         self.stream = stream
         self.verbosity = verbosity
         if title is None:
@@ -574,32 +573,30 @@ class HTMLTestRunner(Template_mixin):
 
         self.startTime = datetime.datetime.now()
 
-
     def run(self, test):
         "Run the given test case or test suite."
         result = _TestResult(self.verbosity)
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
-        print('\nTime Elapsed: %s' % (self.stopTime-self.startTime), file=sys.stderr)
+        print('\nTime Elapsed: %s' % (self.stopTime - self.startTime), file=sys.stderr)
         return result
-
 
     def sortResult(self, result_list):
         # unittest does not seems to run in any particular order.
         # Here at least we want to group them together by class.
         rmap = {}
         classes = []
-        for n,t,o,e in result_list:
+        for n, t, o, e in result_list:
             cls = t.__class__
             if cls not in rmap:
                 rmap[cls] = []
                 classes.append(cls)
-            rmap[cls].append((n,t,o,e))
+            rmap[cls].append((n, t, o, e))
         r = [(cls, rmap[cls]) for cls in classes]
         return r
 
-    #替换测试结果status为通过率 --Findyou
+    # 替换测试结果status为通过率 --Findyou
     def getReportAttributes(self, result):
         """
         Return report attributes as a list of (name, value).
@@ -609,21 +606,21 @@ class HTMLTestRunner(Template_mixin):
         duration = str(self.stopTime - self.startTime)
         status = []
         status.append('共 %s' % (result.success_count + result.failure_count + result.error_count))
-        if result.success_count: status.append('通过 %s'    % result.success_count)
+        if result.success_count: status.append('通过 %s' % result.success_count)
         if result.failure_count: status.append('失败 %s' % result.failure_count)
-        if result.error_count:   status.append('错误 %s'   % result.error_count  )
+        if result.error_count:   status.append('错误 %s' % result.error_count)
         if status:
             status = '，'.join(status)
-            self.passrate = str("%.2f%%" % (float(result.success_count) / float(result.success_count + result.failure_count + result.error_count) * 100))
+            self.passrate = str("%.2f%%" % (float(result.success_count) / float(
+                result.success_count + result.failure_count + result.error_count) * 100))
         else:
             status = 'none'
         return [
             ('测试人员', self.tester),
-            ('开始时间',startTime),
-            ('合计耗时',duration),
-            ('测试结果',status + "，通过率= "+self.passrate),
+            ('开始时间', startTime),
+            ('合计耗时', duration),
+            ('测试结果', status + "，通过率= " + self.passrate),
         ]
-
 
     def generateReport(self, test, result):
         report_attrs = self.getReportAttributes(result)
@@ -633,47 +630,49 @@ class HTMLTestRunner(Template_mixin):
         report = self._generate_report(result)
         ending = self._generate_ending()
         output = self.HTML_TMPL % dict(
-            title = saxutils.escape(self.title),
-            generator = generator,
-            stylesheet = stylesheet,
-            heading = heading,
-            report = report,
-            ending = ending,
+            title=saxutils.escape(self.title),
+            generator=generator,
+            stylesheet=stylesheet,
+            heading=heading,
+            report=report,
+            ending=ending,
         )
         self.stream.write(output.encode())
-
 
     def _generate_stylesheet(self):
         return self.STYLESHEET_TMPL
 
-    #增加Tester显示 -Findyou
+    # 增加Tester显示 -Findyou
     def _generate_heading(self, report_attrs):
         a_lines = []
         for name, value in report_attrs:
             line = self.HEADING_ATTRIBUTE_TMPL % dict(
-                    name = saxutils.escape(name),
-                    value = saxutils.escape(value),
-                )
+                name=saxutils.escape(name),
+                value=saxutils.escape(value),
+            )
             a_lines.append(line)
         heading = self.HEADING_TMPL % dict(
-            title = saxutils.escape(self.title),
-            parameters = ''.join(a_lines),
-            description = saxutils.escape(self.description),
-            tester= saxutils.escape(self.tester),
+            title=saxutils.escape(self.title),
+            parameters=''.join(a_lines),
+            description=saxutils.escape(self.description),
+            tester=saxutils.escape(self.tester),
         )
         return heading
 
-    #生成报告  --Findyou添加注释
+    # 生成报告  --Findyou添加注释
     def _generate_report(self, result):
         rows = []
         sortedResult = self.sortResult(result.result)
         for cid, (cls, cls_results) in enumerate(sortedResult):
             # subtotal for a class
             np = nf = ne = 0
-            for n,t,o,e in cls_results:
-                if n == 0: np += 1
-                elif n == 1: nf += 1
-                else: ne += 1
+            for n, t, o, e in cls_results:
+                if n == 0:
+                    np += 1
+                elif n == 1:
+                    nf += 1
+                else:
+                    ne += 1
 
             # format class description
             if cls.__module__ == "__main__":
@@ -684,69 +683,68 @@ class HTMLTestRunner(Template_mixin):
             desc = doc and '%s: %s' % (name, doc) or name
 
             row = self.REPORT_CLASS_TMPL % dict(
-                style = ne > 0 and 'errorClass' or nf > 0 and 'failClass' or 'passClass',
-                desc = desc,
-                count = np+nf+ne,
-                Pass = np,
-                fail = nf,
-                error = ne,
-                cid = 'c%s' % (cid+1),
+                style=ne > 0 and 'errorClass' or nf > 0 and 'failClass' or 'passClass',
+                desc=desc,
+                count=np + nf + ne,
+                Pass=np,
+                fail=nf,
+                error=ne,
+                cid='c%s' % (cid + 1),
             )
             rows.append(row)
 
-            for tid, (n,t,o,e) in enumerate(cls_results):
+            for tid, (n, t, o, e) in enumerate(cls_results):
                 self._generate_report_test(rows, cid, tid, n, t, o, e)
 
         report = self.REPORT_TMPL % dict(
-            test_list = ''.join(rows),
-            count = str(result.success_count+result.failure_count+result.error_count),
-            Pass = str(result.success_count),
-            fail = str(result.failure_count),
-            error = str(result.error_count),
-            passrate =self.passrate,
+            test_list=''.join(rows),
+            count=str(result.success_count + result.failure_count + result.error_count),
+            Pass=str(result.success_count),
+            fail=str(result.failure_count),
+            error=str(result.error_count),
+            passrate=self.passrate,
         )
         return report
-
 
     def _generate_report_test(self, rows, cid, tid, n, t, o, e):
         # e.g. 'pt1.1', 'ft1.1', etc
         has_output = bool(o or e)
         # ID修改点为下划线,支持Bootstrap折叠展开特效 - Findyou
-        tid = (n == 0 and 'p' or 'f') + 't%s_%s' % (cid+1,tid+1)
+        tid = (n == 0 and 'p' or 'f') + 't%s_%s' % (cid + 1, tid + 1)
         name = t.id().split('.')[-1]
         doc = t.shortDescription() or ""
         desc = doc and ('%s: %s' % (name, doc)) or name
         tmpl = has_output and self.REPORT_TEST_WITH_OUTPUT_TMPL or self.REPORT_TEST_NO_OUTPUT_TMPL
 
         # utf-8 支持中文 - Findyou
-         # o and e should be byte string because they are collected from stdout and stderr?
+        # o and e should be byte string because they are collected from stdout and stderr?
         if isinstance(o, str):
             # TODO: some problem with 'string_escape': it escape \n and mess up formating
-            #uo = unicode(o.encode('string_escape'))
-            #uo = o.decode('utf-8')
+            # uo = unicode(o.encode('string_escape'))
+            # uo = o.decode('utf-8')
             uo = o
         else:
             uo = o
         if isinstance(e, str):
             # TODO: some problem with 'string_escape': it escape \n and mess up formating
             # ue = unicode(e.encode('string_escape'))
-            #ue = e.decode('utf-8')
+            # ue = e.decode('utf-8')
             ue = e
         else:
             ue = e
 
         script = self.REPORT_TEST_OUTPUT_TMPL % dict(
-            id = tid,
-            output = saxutils.escape(uo+ue),
+            id=tid,
+            output=saxutils.escape(uo + ue),
         )
 
         row = tmpl % dict(
-            tid = tid,
-            Class = (n == 0 and 'hiddenRow' or 'none'),
-            style = n == 2 and 'errorCase' or (n == 1 and 'failCase' or 'passCase'),
-            desc = desc,
-            script = script,
-            status = self.STATUS[n],
+            tid=tid,
+            Class=(n == 0 and 'hiddenRow' or 'none'),
+            style=n == 2 and 'errorCase' or (n == 1 and 'failCase' or 'passCase'),
+            desc=desc,
+            script=script,
+            status=self.STATUS[n],
         )
         rows.append(row)
         if not has_output:
@@ -768,6 +766,7 @@ class TestProgram(unittest.TestProgram):
     A variation of the unittest.TestProgram. Please refer to the base
     class for command line parameters.
     """
+
     def runTests(self):
         # Pick HTMLTestRunner as the default test runner.
         # base class's testRunner parameter is not useful because it means
@@ -775,6 +774,7 @@ class TestProgram(unittest.TestProgram):
         if self.testRunner is None:
             self.testRunner = HTMLTestRunner(verbosity=self.verbosity)
         unittest.TestProgram.runTests(self)
+
 
 main = TestProgram
 

@@ -6,9 +6,12 @@ import requests
 import json
 from common.readconf import url, username, password
 from common.log import log
+
+
 class GetLogin:
-     #获取登录态秘钥
+    # 获取登录态秘钥
     log('开始登陆')
+
     def login(self):
         header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple'
                                 'WebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36'}
@@ -16,7 +19,7 @@ class GetLogin:
                 'password': password}
         res = requests.post(url, headers=header, data=data).content
         log('登录完成获取信息')
-#        print(res)
+        #        print(res)
         resjson = json.loads(res)
         # 尝试获取登录返回信息，登录错误提示
         try:
@@ -28,10 +31,12 @@ class GetLogin:
             # 登录成功获取Authorization
             AuthorizationType = resjson['data']['tokenType']
             AuthorizationValue = resjson['data']['value']
-            cookie = GetLogin.cookie = AuthorizationType + ' ' + AuthorizationValue #str类型
-            #cookie1 = {'Authorization': cookie} #元组类型
-            #print(cookie)
+            cookie = GetLogin.cookie = AuthorizationType + ' ' + AuthorizationValue  # str类型
+            # cookie1 = {'Authorization': cookie} #元组类型
+            # print(cookie)
             return cookie
             log('返回登录秘钥为{cookie}'.format(cookie=cookie))
+
+
 Authorization = GetLogin().login()
-#print(Authorization)
+# print(Authorization)
