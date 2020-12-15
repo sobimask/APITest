@@ -56,25 +56,22 @@ class Request(unittest.TestCase):
                 log('判断为delete,并完成请求')
             rescode = res.status_code
             restext = res.text
-            # print(res.text)
+
             # 判断请求是否成功，成功后再根据返回值判断返回具体信息，不成功直接抛出错误
             if 200 == rescode:
                 log('请求响应预期200，实际为{rescode}'.format(rescode=rescode))
                 resjson = json.loads(res.content)
                 resjson_code = resjson['code']
                 resjson_msg = resjson['msg']
-                # print(resjson)
                 if 'status' in resjson:
                     resjson_status = resjson['status']
                     log('返回结果为{restext}'.format(restext=restext))
-                    print(url, apiname, '请求完成,返回code和status和msg提示分别是', resjson_code, resjson_status, resjson_msg)
-                    self.assertEqual(resjson_code, code) and self.assertEqual(status, resjson_status)
-                    log('判断预期和实际返回信息完成')
+                    if self.assertEqual(resjson_code, code,msg='失败url为'+url+',失败返回结果为'+str(resjson)) and self.assertEqual(status, resjson_status) is False:
+                        log('判断预期和实际返回信息完成')
                 else:
                     log('返回结果为{restext}'.format(restext=restext))
-                    print(url, apiname, '请求完成,返回code和msg提示分别是', resjson_code, resjson_msg)
-                    self.assertEqual(resjson_code, code)
-                    log('判断预期和实际返回信息完成')
+                    if self.assertEqual(resjson_code, code,msg='失败url为'+url+',失败返回结果为'+str(resjson)) is False:
+                        log('判断预期和实际返回信息完成')
             else:
                 log('请求不为200')
                 raise Exception('接口通信失败，请检查网络')

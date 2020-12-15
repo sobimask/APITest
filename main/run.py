@@ -7,11 +7,9 @@ from common.readconf import REPORT_PATH
 from common.log import log
 import datetime
 
-
 def addcase():
     log('创建测试集合')
     discovery = unittest.defaultTestLoader.discover(testcase_dir, pattern="test*.py", top_level_dir=None)
-    print(discovery)
     suite = unittest.TestSuite()
     suite.addTest(discovery)
     log('集合为{suite}'.format(suite=suite))

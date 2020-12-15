@@ -19,21 +19,19 @@ class GetLogin:
                 'password': password}
         res = requests.post(url, headers=header, data=data).content
         log('登录完成获取信息')
-        #        print(res)
+
         resjson = json.loads(res)
         # 尝试获取登录返回信息，登录错误提示
         try:
             msg = resjson['msg']
             if msg == '用户名或密码错误':
-                print(msg)
                 log(msg)
         except:
             # 登录成功获取Authorization
             AuthorizationType = resjson['data']['tokenType']
             AuthorizationValue = resjson['data']['value']
             cookie = GetLogin.cookie = AuthorizationType + ' ' + AuthorizationValue  # str类型
-            # cookie1 = {'Authorization': cookie} #元组类型
-            # print(cookie)
+
             return cookie
             log('返回登录秘钥为{cookie}'.format(cookie=cookie))
 

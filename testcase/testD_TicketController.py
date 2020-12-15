@@ -26,7 +26,7 @@ class TicketController(unittest.TestCase):
                     'handleUserId': '719967562599632896', 'handleUserName': 'admin1', 'handleUserTel': '13333333332',
                     'originTypeCode': '0', 'priorityLevelCode': '0', 'startDateTime': '2020-11-20 15:48:14',
                     })
-        res = requests.request(method='post', url='http://island.dev.iot-cas.com:8081/island/ticketSys/tickets',
+        res = requests.request(method='post', url='http://island.iot-cas.com:8081/island/ticketSys/tickets',
                                data=data,
                                headers={"Authorization": Authorization,
                                         'Content-Length': '1276',
@@ -41,16 +41,16 @@ class TicketController(unittest.TestCase):
         resjson = json.loads(res.content)
         id = resjson['data']['id']  # 工单id
         fileid = resjson['data']['fileIdList'][0]  # 工单附件id
-        url = 'http://island.dev.iot-cas.com:8081/island/ticketSys/tickets/' + id  # 工单url
+        url = 'http://island.iot-cas.com:8081/island/ticketSys/tickets/' + id  # 工单url
         write_data(apifile_dir + 'TicketController.xlsx', 'Sheet1', 4, 1, str(url))  # 写入查询工单详情url
         write_data(apifile_dir + 'TicketController.xlsx', 'Sheet1', 6, 1, str(url))  # 写入删除工单url
-        url1 = 'http://island.dev.iot-cas.com:8081/island/ticketSys/tickets/' + id + '/files/' + fileid + ''  # 工单附件url
+        url1 = 'http://island.iot-cas.com:8081/island/ticketSys/tickets/' + id + '/files/' + fileid + ''  # 工单附件url
         write_data(apifile_dir + 'TicketController.xlsx', 'Sheet1', 5, 1, str(url1))  # 写入删除工单附件url
         log('写入工单各url完成')
 
         data1 = MultipartEncoder(
             fields={'ticketId': id, 'workflowStatusCode': '1001', 'operateRemark': 'test'})
-        res1 = requests.request(method='post', url='http://island.dev.iot-cas.com:8081/island/ticketSys/tickets/' + id,
+        res1 = requests.request(method='post', url='http://island.iot-cas.com:8081/island/ticketSys/tickets/' + id,
                                 data=data1,
                                 headers={"Authorization": Authorization,
                                          'Content-Length': '1276',

@@ -1,6 +1,6 @@
 # APITest 灯杆云接口自动化
 
-框架说明
+框架结构说明
 
   1.apifile  --存在用例excel文件
   
@@ -32,6 +32,14 @@
     test4_LedCommandController.py  --led屏幕操作相关接口
     test5_RadioCommandController.py  --广播操作相关接口
     test6_dashboard.py --获取报表数据相关接口
+    test7_VehicleController.py --载体相关接口
+    test8_DeviceController.py --设备管理相关接口
+    test9_ChartController.py --报表相关接口
+    testA_NbCommandController.py --NB灯杆操作相关接口
+    testB_IlluminationCommandController.py --策略相关接口
+    testC_AlarmEventController.py --告警管理相关接口
+    testD_TicketController.py --工单相关接口
+    
     
   
   
